@@ -11,7 +11,7 @@ var rightPressed = false;
 var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
-var time = 0
+var time = 0;
 
 function drawPlayer() {
     ctx.beginPath()
