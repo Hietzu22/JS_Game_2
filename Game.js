@@ -5,8 +5,8 @@ var playerHeight = 50;
 var canvasWidth = 720;
 var canvasHeight = 500;
 var playerSpeed = 10;
-var playerX = (canvasWidth-playerWidth);
-var playerY = (canvasHeight-playerHeight);
+var playerX = 335;
+var playerY = 225;
 var rightPressed = false;
 var leftPressed = false;
 var upPressed = false;
@@ -15,7 +15,7 @@ var time = 0;
 
 function drawPlayer() {
     ctx.beginPath()
-    ctx.fillRect(335, 225, playerWidth, playerHeight);
+    ctx.fillRect(playerX, playerY, playerWidth, playerHeight);
     ctx.stroke()
 }
 
@@ -26,8 +26,11 @@ function drawTime() {
     }
 
 function draw() {
+    clearCanvas();
     drawPlayer();
     drawTime();
+    playerMovement();
+    requestAnimationFrame(draw);
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -36,11 +39,17 @@ document.addEventListener("keyup", keyUpHandler, false);
 function keyDownHandler(e) {
     if(e.key == "d") {
         rightPressed = true;
-    } else if(e.key == "a") {
+    }
+    
+    if(e.key == "a") {
         leftPressed = true;
-    } else if(e.key == "w") {
+    }
+    
+    if(e.key == "w") {
         upPressed = true;
-    } else if(e.key == "s") {
+    }
+    
+    if(e.key == "s") {
         downPressed = true;
     }
 }
@@ -48,23 +57,41 @@ function keyDownHandler(e) {
 function keyUpHandler(e) {
     if(e.key == "d") {
         rightPressed = false;
-    } else if(e.key == "a") {
+    }
+    
+    if(e.key == "a") {
         leftPressed = false;
-    } else if(e.key == "w") {
+    }
+    
+    if(e.key == "w") {
         upPressed = false;
-    } else if(e.key == "s") {
+    }
+    
+    if(e.key == "s") {
         downPressed = false;
     }
 }
 
-if(rightPressed && playerX < canvasWidth-playerWidth) {
-    playerX += playerSpeed;
-} else if(leftPressed && playerX > 0) {
-    playerX -= playerSpeed;
-} else if(upPressed && playerY > 0) {
-    playerY -= playerSpeed;
-} else if(downPressed && playerY < canvasHeight-playerHeight) {
-    playerY += playerSpeed;
+function playerMovement() {
+    if(rightPressed && playerX < canvasWidth-playerWidth) {
+        playerX += playerSpeed;
+    }
+    
+    if(leftPressed && playerX > 0) {
+        playerX -= playerSpeed;
+    }
+    
+    if(upPressed && playerY > 0) {
+        playerY -= playerSpeed;
+    }
+    
+    if(downPressed && playerY < canvasHeight-playerHeight) {
+        playerY += playerSpeed;
+    }
+}
+
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 draw();
