@@ -4,9 +4,12 @@ var playerWidth = 50;
 var playerHeight = 50;
 var canvasWidth = 720;
 var canvasHeight = 500;
-var playerSpeed = 10;
+var playerSpeed = 5;
 var playerX = 335;
 var playerY = 225;
+var bulletSpeed = 15;
+var bulletLength = 50;
+var bulletWidth = 30;
 var rightPressed = false;
 var leftPressed = false;
 var upPressed = false;
@@ -24,11 +27,17 @@ function drawTime() {
     ctx.fillStyle = "black";
     ctx.fillText("Time: "+time, 20, 35);
     }
+    function drawBullets() {
+        ctx.beginPath()
+        ctx.fillRect(0, 0, bulletWidth, bulletLength);
+        ctx.stroke()
+    }    
 
 function draw() {
     clearCanvas();
     drawPlayer();
     drawTime();
+    drawBullets();
     playerMovement();
     requestAnimationFrame(draw);
 }
