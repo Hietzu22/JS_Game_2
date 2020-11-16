@@ -7,7 +7,7 @@ var canvasHeight = 500;
 var playerSpeed = 5;
 var playerX = 335;
 var playerY = 225;
-var bulletSpeed = 15;
+var bulletSpeed = 5;
 var bulletLength = 50;
 var bulletWidth = 30;
 var rightPressed = false;
@@ -15,6 +15,9 @@ var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
 var time = 0;
+var bullets = [];
+
+
 
 function drawPlayer() {
     ctx.beginPath()
@@ -29,10 +32,33 @@ function drawTime() {
 }
 
 function drawBullets() {
-    ctx.beginPath()
-    ctx.fillRect(0, 0, bulletWidth, bulletLength);
-    ctx.stroke()
+
+    if (bullets.length < 2) {
+        if (bullets.length != 0 && bullets[bullets.length-1].x < 300) {
+            return;
+        }
+
+        let newY = Math.floor(Math.random() * canvasHeight)
+        bullets.push({x: 0, y: newY, w: bulletLength, h: bulletWidth})
+    }
+
+    bullets.forEach(bullet => {
+        if (bullet.x + bullet.w > canvasWidth) {
+            bullets.shift();
+        }
+        
+        ctx.beginPath()
+        ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
+        ctx.stroke();
+    }); (bullets)
+    
 }    
+
+function moveBullets(){
+    bullets.forEach(bullet => {
+        bullet.x += bulletSpeed;
+    })
+}
 
 function draw() {
     clearCanvas();
@@ -40,6 +66,7 @@ function draw() {
     drawTime();
     drawBullets();
     playerMovement();
+    moveBullets();
     requestAnimationFrame(draw);
 }
 
