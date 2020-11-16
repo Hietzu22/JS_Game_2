@@ -7,9 +7,8 @@ var canvasHeight = 500;
 var playerSpeed = 5;
 var playerX = 335;
 var playerY = 225;
-var bulletSpeed = 5;
-var bulletLength = 50;
-var bulletWidth = 30;
+var bulletSpeed = 8;
+var bulletSize = 30;
 var rightPressed = false;
 var leftPressed = false;
 var upPressed = false;
@@ -34,12 +33,12 @@ function drawTime() {
 function drawBullets() {
 
     if (bullets.length < 2) {
-        if (bullets.length != 0 && bullets[bullets.length-1].x < 300) {
+        if (bullets.length != 0 && bullets[bullets.length-1].x < 360) {
             return;
         }
 
-        let newY = Math.floor(Math.random() * canvasHeight)
-        bullets.push({x: 0, y: newY, w: bulletLength, h: bulletWidth})
+        let newY = Math.floor(Math.random() * canvasHeight - bulletSize)
+        bullets.push({x: 0, y: newY, w: bulletSize, h: bulletSize})
     }
 
     bullets.forEach(bullet => {
