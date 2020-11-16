@@ -26,12 +26,13 @@ function drawTime() {
     ctx.font = "25px Arial";
     ctx.fillStyle = "black";
     ctx.fillText("Time: "+time, 20, 35);
-    }
-    function drawBullets() {
-        ctx.beginPath()
-        ctx.fillRect(0, 0, bulletWidth, bulletLength);
-        ctx.stroke()
-    }    
+}
+
+function drawBullets() {
+    ctx.beginPath()
+    ctx.fillRect(0, 0, bulletWidth, bulletLength);
+    ctx.stroke()
+}    
 
 function draw() {
     clearCanvas();
