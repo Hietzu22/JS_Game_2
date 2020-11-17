@@ -102,7 +102,7 @@ function drawBulletsUp() {
 function drawBulletsDown() {
 
     if (bulletsDown.length < 2) {
-        if (bulletsDown.length != 0 && bulletsDown[bulletsDown.length-1].x > 250) {
+        if (bulletsDown.length != 0 && bulletsDown[bulletsDown.length-1].y > 250) {
             return;
         }
 
