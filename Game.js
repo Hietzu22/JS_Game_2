@@ -50,24 +50,27 @@ function Reset() {
 
 function drawBulletsRight() {
 
-    if (bulletsRight.length < 2) {
-        if (bulletsRight.length != 0 && bulletsRight[bulletsRight.length-1].x < 360) {
-            return;
+    // Jos bulletteja on vähemmän kuin n
+    if (bulletsRight.length < 4) {
+
+        // Luodaan uusi bulletti, jos niitä ei ole yhtään tai viimeinen on jo yli puolen välin
+        if (bulletsRight.length == 0 || (bulletsRight.length != 0 && bulletsRight[bulletsRight.length-1].x > 360) ) {
+            let newY = Math.floor(Math.random() * canvasHeight - bulletSize)
+            bulletsRight.push({x: 0, y: newY, w: bulletSize, h: bulletSize})
         }
 
-        let newY = Math.floor(Math.random() * canvasHeight - bulletSize)
-        bulletsRight.push({x: 0, y: newY, w: bulletSize, h: bulletSize})
     }
 
+    // Käydään bullet-array läpi ja piirretään canvasille
     bulletsRight.forEach(bullet => {
-        if (bulletX + bulletSize > canvasWidth) {
+        if (bullet.x + bullet.w > canvasWidth) {
             bulletsRight.shift();
         }
         ctx.fillStyle = "#000000"
         ctx.beginPath()
-        ctx.fillRect(bulletX, bulletY, bullet.w, bullet.h);
+        ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
         ctx.stroke();
-    }); (bulletsRight)
+    });
 }
 
 function drawBulletsLeft() {
@@ -138,14 +141,14 @@ function drawBulletsDown() {
 
 function drawBullets() {
     drawBulletsRight();
-    drawBulletsLeft();
-    drawBulletsUp();
-    drawBulletsDown();
+    // drawBulletsLeft();
+    // drawBulletsUp();
+    // drawBulletsDown();
 }
 
 function moveBulletsRight() {
     bulletsRight.forEach(bullet => {
-        bulletX += bulletSpeed;
+        bullet.x += bulletSpeed;
     })
 }
 
@@ -169,9 +172,9 @@ function moveBulletsDown() {
 
 function moveBullets() {
     moveBulletsRight();
-    moveBulletsLeft();
-    moveBulletsUp();
-    moveBulletsDown();
+    // moveBulletsLeft();
+    // moveBulletsUp();
+    // moveBulletsDown();
 }
 
 function CollisionDetection() {
