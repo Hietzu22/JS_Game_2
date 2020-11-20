@@ -9,28 +9,43 @@ var playerX = 335;
 var playerY = 225;
 var bulletSpeed = 7;
 var bulletSize = 30;
+var bulletX = 0;
+var bulletY = 0;
 var rightPressed = false;
 var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
-var time = 0;
+var Score = 0;
+var ObjectiveX = 0;
+var ObjectiveY = 0;
+var ObjSize = 40;
 var bulletsRight = [];
 var bulletsLeft = [];
 var bulletsUp = [];
 var bulletsDown = [];
 
-
-
 function drawPlayer() {
+    ctx.fillStyle = "#0099FF"
     ctx.beginPath()
     ctx.fillRect(playerX, playerY, playerWidth, playerHeight);
     ctx.stroke()
 }
 
-function drawTime() {
+function drawScore() {
     ctx.font = "25px Arial";
     ctx.fillStyle = "black";
-    ctx.fillText("Time: "+time, 20, 35);
+    ctx.fillText("Score: "+Score, 20, 35);
+}
+
+function drawObjective() {
+    ctx.fillStyle = "#FFFF00"
+    ctx.beginPath()
+    ctx.fillRect(ObjectiveX, ObjectiveY, ObjSize, ObjSize);
+}
+
+function Reset() {
+    ObjectiveX = 32 + (Math.random() * (canvas.width - 64));
+	ObjectiveY = 32 + (Math.random() * (canvas.height - 64));
 }
 
 function drawBulletsRight() {
@@ -45,12 +60,12 @@ function drawBulletsRight() {
     }
 
     bulletsRight.forEach(bullet => {
-        if (bullet.x + bullet.w > canvasWidth) {
+        if (bulletX + bulletSize > canvasWidth) {
             bulletsRight.shift();
         }
-        
+        ctx.fillStyle = "#000000"
         ctx.beginPath()
-        ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
+        ctx.fillRect(bulletX, bulletY, bullet.w, bullet.h);
         ctx.stroke();
     }); (bulletsRight)
 }
@@ -67,12 +82,12 @@ function drawBulletsLeft() {
     }
 
     bulletsLeft.forEach(bullet => {
-        if (bullet.x + bullet.w < 0) {
+        if (bulletX + bulletSize < 0) {
             bulletsLeft.shift();
         }
-        
+        ctx.fillStyle = "#000000"
         ctx.beginPath()
-        ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
+        ctx.fillRect(bulletX, bulletY, bullet.w, bullet.h);
         ctx.stroke();
     }); (bulletsLeft)
 }
@@ -89,12 +104,12 @@ function drawBulletsUp() {
     }
 
     bulletsUp.forEach(bullet => {
-        if (bullet.y + bullet.h > canvasHeight) {
+        if (bulletY + bulletSize > canvasHeight) {
             bulletsUp.shift();
         }
-        
+        ctx.fillStyle = "#000000"
         ctx.beginPath()
-        ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
+        ctx.fillRect(bulletX, bulletY, bullet.w, bullet.h);
         ctx.stroke();
     }); (bulletsUp)
 }
@@ -111,12 +126,12 @@ function drawBulletsDown() {
     }
 
     bulletsDown.forEach(bullet => {
-        if (bullet.y + bullet.h < 0) {
+        if (bulletY + bulletSize < 0) {
             bulletsDown.shift();
         }
-        
+        ctx.fillStyle = "#000000"
         ctx.beginPath()
-        ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
+        ctx.fillRect(bulletX, bulletY, bullet.w, bullet.h);
         ctx.stroke();
     }); (bulletsDown)
 }
@@ -130,25 +145,25 @@ function drawBullets() {
 
 function moveBulletsRight() {
     bulletsRight.forEach(bullet => {
-        bullet.x += bulletSpeed;
+        bulletX += bulletSpeed;
     })
 }
 
 function moveBulletsLeft() {
     bulletsLeft.forEach(bullet => {
-        bullet.x -= bulletSpeed
+        bulletX -= bulletSpeed
     })
 }
 
 function moveBulletsUp() {
     bulletsUp.forEach(bullet => {
-        bullet.y += bulletSpeed;
+        bulletY += bulletSpeed;
     })
 }
 
 function moveBulletsDown() {
     bulletsDown.forEach(bullet => {
-        bullet.y -= bulletSpeed;
+        bulletY -= bulletSpeed;
     })
 }
 
@@ -159,13 +174,42 @@ function moveBullets() {
     moveBulletsDown();
 }
 
+function CollisionDetection() {
+    if (
+        playerX <= (bulletX + bulletSize) &&
+        bulletX <= (playerX + playerWidth) &&
+        playerY <= (bulletY + bulletSize) &&
+        bulletY <= (playerY + playerHeight) 
+    ) {
+        alert("You Died! Try again?");
+        ResetAll();
+    } else if (
+        playerX <= (ObjectiveX + ObjSize) &&
+        ObjectiveX <= (playerX + playerWidth) &&
+        playerY <= (ObjectiveY + ObjSize) &&
+        ObjectiveY <= (playerY + playerHeight)
+    ) {
+        ++Score;
+        Reset();
+    }
+}
+
+function ResetAll() {
+    Reset();
+    playerX = 335;
+    playerY = 250;
+    Score = 0;
+}
+
 function draw() {
     clearCanvas();
     drawPlayer();
-    drawTime();
     drawBullets();
+    drawObjective();
     playerMovement();
     moveBullets();
+    drawScore();
+    CollisionDetection();
     requestAnimationFrame(draw);
 }
 
