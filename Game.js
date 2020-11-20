@@ -9,8 +9,6 @@ var playerX = 335;
 var playerY = 225;
 var bulletSpeed = 7;
 var bulletSize = 30;
-var bulletX = 0;
-var bulletY = 0;
 var rightPressed = false;
 var leftPressed = false;
 var upPressed = false;
@@ -50,18 +48,13 @@ function Reset() {
 
 function drawBulletsRight() {
 
-    // Jos bulletteja on vähemmän kuin n
     if (bulletsRight.length < 4) {
-
-        // Luodaan uusi bulletti, jos niitä ei ole yhtään tai viimeinen on jo yli puolen välin
         if (bulletsRight.length == 0 || (bulletsRight.length != 0 && bulletsRight[bulletsRight.length-1].x > 360) ) {
             let newY = Math.floor(Math.random() * canvasHeight - bulletSize)
             bulletsRight.push({x: 0, y: newY, w: bulletSize, h: bulletSize})
         }
-
     }
 
-    // Käydään bullet-array läpi ja piirretään canvasille
     bulletsRight.forEach(bullet => {
         if (bullet.x + bullet.w > canvasWidth) {
             bulletsRight.shift();
@@ -75,75 +68,67 @@ function drawBulletsRight() {
 
 function drawBulletsLeft() {
 
-    if (bulletsLeft.length < 2) {
-        if (bulletsLeft.length != 0 && bulletsLeft[bulletsLeft.length-1].x > 360) {
-            return;
+    if (bulletsLeft.length < 4) {
+        if (bulletsLeft.length == 0 || bulletsLeft.length != 0 && bulletsLeft[bulletsLeft.length-1].x < 360) {
+            let newY = Math.floor(Math.random() * canvasHeight - bulletSize)
+            bulletsLeft.push({x: canvasWidth, y: newY, w: bulletSize, h: bulletSize})
         }
-
-        let newY = Math.floor(Math.random() * canvasHeight - bulletSize)
-        bulletsLeft.push({x: canvasWidth, y: newY, w: bulletSize, h: bulletSize})
     }
 
     bulletsLeft.forEach(bullet => {
-        if (bulletX + bulletSize < 0) {
+        if (bullet.x + bulletSize < 0) {
             bulletsLeft.shift();
         }
         ctx.fillStyle = "#000000"
         ctx.beginPath()
-        ctx.fillRect(bulletX, bulletY, bullet.w, bullet.h);
+        ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
         ctx.stroke();
-    }); (bulletsLeft)
+    });
 }
 
 function drawBulletsUp() {
-
-    if (bulletsUp.length < 2) {
-        if (bulletsUp.length != 0 && bulletsUp[bulletsUp.length-1].y < 250) {
-            return;
+    if (bulletsUp.length < 4) {
+        if (bulletsUp.length == 0 || bulletsUp.length != 0 && bulletsUp[bulletsUp.length-1].y > 250) {
+            let newX = Math.floor(Math.random() * canvasWidth - bulletSize)
+            bulletsUp.push({x: newX, y: 0, w: bulletSize, h: bulletSize})
         }
-
-        let newX = Math.floor(Math.random() * canvasWidth - bulletSize)
-        bulletsUp.push({x: newX, y: 0, w: bulletSize, h: bulletSize})
     }
 
     bulletsUp.forEach(bullet => {
-        if (bulletY + bulletSize > canvasHeight) {
+        if (bullet.y + bulletSize > canvasHeight) {
             bulletsUp.shift();
         }
         ctx.fillStyle = "#000000"
         ctx.beginPath()
-        ctx.fillRect(bulletX, bulletY, bullet.w, bullet.h);
+        ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
         ctx.stroke();
-    }); (bulletsUp)
+    });
 }
 
 function drawBulletsDown() {
-
-    if (bulletsDown.length < 2) {
-        if (bulletsDown.length != 0 && bulletsDown[bulletsDown.length-1].y > 250) {
-            return;
+    if (bulletsDown.length < 4) {
+        if (bulletsDown.length == 0 || bulletsDown.length != 0 && bulletsDown[bulletsDown.length-1].y < 250) {
+            let newX = Math.floor(Math.random() * canvasWidth - bulletSize)
+            bulletsDown.push({x: newX, y: canvasHeight, w: bulletSize, h: bulletSize})
         }
-
-        let newX = Math.floor(Math.random() * canvasWidth - bulletSize)
-        bulletsDown.push({x: newX, y: canvasHeight, w: bulletSize, h: bulletSize})
     }
 
     bulletsDown.forEach(bullet => {
-        if (bulletY + bulletSize < 0) {
+        if (bullet.y + bulletSize < 0) {
             bulletsDown.shift();
         }
         ctx.fillStyle = "#000000"
         ctx.beginPath()
-        ctx.fillRect(bulletX, bulletY, bullet.w, bullet.h);
+        ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
         ctx.stroke();
-    }); (bulletsDown)
+    });
 }
 
 function drawBullets() {
     drawBulletsRight();
-    // drawBulletsLeft();
-    // drawBulletsUp();
-    // drawBulletsDown();
+    drawBulletsLeft();
+    drawBulletsUp();
+    drawBulletsDown();
 }
 
 function moveBulletsRight() {
@@ -154,35 +139,35 @@ function moveBulletsRight() {
 
 function moveBulletsLeft() {
     bulletsLeft.forEach(bullet => {
-        bulletX -= bulletSpeed
+        bullet.x -= bulletSpeed
     })
 }
 
 function moveBulletsUp() {
     bulletsUp.forEach(bullet => {
-        bulletY += bulletSpeed;
+        bullet.y += bulletSpeed;
     })
 }
 
 function moveBulletsDown() {
     bulletsDown.forEach(bullet => {
-        bulletY -= bulletSpeed;
+        bullet.y -= bulletSpeed;
     })
 }
 
 function moveBullets() {
     moveBulletsRight();
-    // moveBulletsLeft();
-    // moveBulletsUp();
-    // moveBulletsDown();
+    moveBulletsLeft();
+    moveBulletsUp();
+    moveBulletsDown();
 }
 
 function CollisionDetection() {
     if (
-        playerX <= (bulletX + bulletSize) &&
-        bulletX <= (playerX + playerWidth) &&
-        playerY <= (bulletY + bulletSize) &&
-        bulletY <= (playerY + playerHeight) 
+        playerX <= (bullet.x + bulletSize) &&
+        bullet.x <= (playerX + playerWidth) &&
+        playerY <= (bullet.y + bulletSize) &&
+        bullet.y <= (playerY + playerHeight) 
     ) {
         alert("You Died! Try again?");
         ResetAll();
@@ -202,6 +187,10 @@ function ResetAll() {
     playerX = 335;
     playerY = 250;
     Score = 0;
+    rightPressed = false;
+    leftPressed = false;
+    upPressed = false;
+    downPressed = false;
 }
 
 function draw() {
