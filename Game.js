@@ -14,8 +14,8 @@ var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
 var Score = 0;
-var ObjectiveX = 0;
-var ObjectiveY = 0;
+var ObjectiveX = 32 + (Math.random() * (canvasWidth - 64));
+var ObjectiveY = 32 + (Math.random() * (canvas.height - 64));
 var ObjSize = 40;
 var bulletsRight = [];
 var bulletsLeft = [];
@@ -42,16 +42,16 @@ function drawObjective() {
 }
 
 function Reset() {
-    ObjectiveX = 32 + (Math.random() * (canvas.width - 64));
-	ObjectiveY = 32 + (Math.random() * (canvas.height - 64));
+    ObjectiveX = 32 + (Math.random() * (canvasWidth - 64));
+	ObjectiveY = 32 + (Math.random() * (canvasHeight - 64));
 }
 
 function drawBulletsRight() {
 
     if (bulletsRight.length < 4) {
         if (bulletsRight.length == 0 || (bulletsRight.length != 0 && bulletsRight[bulletsRight.length-1].x > 360) ) {
-            let newY = Math.floor(Math.random() * canvasHeight - bulletSize)
-            bulletsRight.push({x: 0, y: newY, w: bulletSize, h: bulletSize})
+            var newY = Math.floor(Math.random() * canvasHeight - bulletSize);
+            bulletsRight.push({x: 0, y: newY, w: bulletSize, h: bulletSize});
         }
     }
 
@@ -70,8 +70,8 @@ function drawBulletsLeft() {
 
     if (bulletsLeft.length < 4) {
         if (bulletsLeft.length == 0 || bulletsLeft.length != 0 && bulletsLeft[bulletsLeft.length-1].x < 360) {
-            let newY = Math.floor(Math.random() * canvasHeight - bulletSize)
-            bulletsLeft.push({x: canvasWidth, y: newY, w: bulletSize, h: bulletSize})
+            var newY = Math.floor(Math.random() * canvasHeight - bulletSize);
+            bulletsLeft.push({x: canvasWidth, y: newY, w: bulletSize, h: bulletSize});
         }
     }
 
@@ -89,8 +89,8 @@ function drawBulletsLeft() {
 function drawBulletsUp() {
     if (bulletsUp.length < 4) {
         if (bulletsUp.length == 0 || bulletsUp.length != 0 && bulletsUp[bulletsUp.length-1].y > 250) {
-            let newX = Math.floor(Math.random() * canvasWidth - bulletSize)
-            bulletsUp.push({x: newX, y: 0, w: bulletSize, h: bulletSize})
+            var newX = Math.floor(Math.random() * canvasWidth - bulletSize);
+            bulletsUp.push({x: newX, y: 0, w: bulletSize, h: bulletSize});
         }
     }
 
@@ -108,8 +108,8 @@ function drawBulletsUp() {
 function drawBulletsDown() {
     if (bulletsDown.length < 4) {
         if (bulletsDown.length == 0 || bulletsDown.length != 0 && bulletsDown[bulletsDown.length-1].y < 250) {
-            let newX = Math.floor(Math.random() * canvasWidth - bulletSize)
-            bulletsDown.push({x: newX, y: canvasHeight, w: bulletSize, h: bulletSize})
+            var newX = Math.floor(Math.random() * canvasWidth - bulletSize);
+            bulletsDown.push({x: newX, y: canvasHeight, w: bulletSize, h: bulletSize});
         }
     }
 
@@ -162,7 +162,19 @@ function moveBullets() {
     moveBulletsDown();
 }
 
-function CollisionDetection() {
+function CollisionDetectionObjective() {
+    if (
+        playerX <= (ObjectiveX + ObjSize) &&
+        ObjectiveX <= (playerX + playerWidth) &&
+        playerY <= (ObjectiveY + ObjSize) &&
+        ObjectiveY <= (playerY + playerHeight)
+    ) {
+        ++Score;
+        Reset();
+    }
+}
+
+function CollisionDetectionBullets() {
     if (
         playerX <= (bullet.x + bulletSize) &&
         bullet.x <= (playerX + playerWidth) &&
@@ -171,14 +183,6 @@ function CollisionDetection() {
     ) {
         alert("You Died! Try again?");
         ResetAll();
-    } else if (
-        playerX <= (ObjectiveX + ObjSize) &&
-        ObjectiveX <= (playerX + playerWidth) &&
-        playerY <= (ObjectiveY + ObjSize) &&
-        ObjectiveY <= (playerY + playerHeight)
-    ) {
-        ++Score;
-        Reset();
     }
 }
 
@@ -201,7 +205,8 @@ function draw() {
     playerMovement();
     moveBullets();
     drawScore();
-    CollisionDetection();
+    CollisionDetectionObjective();
+    // CollisionDetectionBullets();
     requestAnimationFrame(draw);
 }
 
