@@ -181,7 +181,7 @@ function CollisionDetectionBullets() {
         playerY <= (bullet.y + bulletSize) &&
         bullet.y <= (playerY + playerHeight) 
     ) {
-        alert("You Died! Try again?");
+        let LBName = prompt("You Died! Enter Name!");
         ResetAll();
     }
 }
