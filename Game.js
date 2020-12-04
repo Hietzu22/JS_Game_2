@@ -22,6 +22,9 @@ var bulletsLeft = [];
 var bulletsUp = [];
 var bulletsDown = [];
 
+var myReq;
+var hep = 0;
+
 function drawPlayer() {
     ctx.fillStyle = "#0099FF"
     ctx.beginPath()
@@ -183,6 +186,7 @@ function BulletDetectionRight() {
         bullet.y <= (playerY + playerHeight) 
     ) {
         ResetAll();
+        stopGame();
     }})
 }
 
@@ -195,6 +199,7 @@ function BulletDetectionLeft() {
         bullet.y <= (playerY + playerHeight) 
     ) {
         ResetAll();
+        stopGame();
     }})
 }
 
@@ -207,6 +212,7 @@ function BulletDetectionUp() {
         bullet.y <= (playerY + playerHeight) 
     ) {
         ResetAll();
+        stopGame();
     }})
 }
 
@@ -219,6 +225,7 @@ function BulletDetectionDown() {
         bullet.y <= (playerY + playerHeight) 
     ) {
         ResetAll();
+        stopGame();
     }})
 }
 
@@ -230,11 +237,12 @@ function CollisionDetectionBullets() {
 }
 
 function LeaderboardInfo() {
+    console.log('näytetään lomake')
     document.getElementById("LBInfo").innerHTML = "<form name='lähetä' action='save.php' method='POST'>Put Name Here:<br><input type='text'name='name'><input style='display: none;'type='number' value="+Score+" name='piste'/><input style='padding:3px; color: white; 'type='submit'value='Submit'>";
 }
 
 function ResetAll() {
-    LeaderboardInfo();
+
     Score = 0;
     rightPressed = false;
     leftPressed = false;
@@ -245,6 +253,8 @@ function ResetAll() {
 }
 
 function draw() {
+    myReq = window.requestAnimationFrame(draw);
+    console.log(myReq);
     clearCanvas();
     drawPlayer();
     drawBullets();
@@ -254,7 +264,7 @@ function draw() {
     drawScore();
     CollisionDetectionObjective();
     CollisionDetectionBullets();
-    requestAnimationFrame(draw);
+    
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -318,4 +328,16 @@ function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-draw();
+function stopGame(){
+    if(myReq){
+        window.cancelAnimationFrame(myReq);
+        myReq = undefined;
+        LeaderboardInfo();
+    }
+}
+
+function startGame(){
+    if(!myReq){
+        myReq = window.requestAnimationFrame(draw);
+    }
+}
