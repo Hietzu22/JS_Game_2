@@ -21,9 +21,7 @@ var bulletsRight = [];
 var bulletsLeft = [];
 var bulletsUp = [];
 var bulletsDown = [];
-
 var myReq;
-var hep = 0;
 
 function drawPlayer() {
     ctx.fillStyle = "#0099FF"
@@ -237,13 +235,10 @@ function CollisionDetectionBullets() {
 }
 
 function LeaderboardInfo() {
-    console.log('näytetään lomake')
-    document.getElementById("LBInfo").innerHTML = "<form name='lähetä' action='save.php' method='POST'>Put Name Here:<br><input type='text'name='name'><input style='display: none;'type='number' value="+Score+" name='piste'/><input style='padding:3px; color: white; 'type='submit'value='Submit'>";
+    document.getElementById("LBInfo").innerHTML = "<form name='lähetä' action='save.php' method='POST'>Put Name Here:<br><input type='text'name='name'><input style='display: none;'type='number' value="+Score+" name='piste'/><input style='padding:3px; 'type='submit'value='Submit'>";
 }
 
 function ResetAll() {
-
-    Score = 0;
     rightPressed = false;
     leftPressed = false;
     upPressed = false;
@@ -254,7 +249,6 @@ function ResetAll() {
 
 function draw() {
     myReq = window.requestAnimationFrame(draw);
-    console.log(myReq);
     clearCanvas();
     drawPlayer();
     drawBullets();
@@ -264,7 +258,6 @@ function draw() {
     drawScore();
     CollisionDetectionObjective();
     CollisionDetectionBullets();
-    
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
