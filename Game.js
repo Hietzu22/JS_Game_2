@@ -174,27 +174,74 @@ function CollisionDetectionObjective() {
     }
 }
 
-function CollisionDetectionBullets() {
-    if (
+function BulletDetectionRight() {
+    bulletsRight.forEach(bullet => {
+        if (
         playerX <= (bullet.x + bulletSize) &&
         bullet.x <= (playerX + playerWidth) &&
         playerY <= (bullet.y + bulletSize) &&
         bullet.y <= (playerY + playerHeight) 
     ) {
-        let LBName = prompt("You Died! Enter Name!");
         ResetAll();
-    }
+    }})
+}
+
+function BulletDetectionLeft() {
+    bulletsLeft.forEach(bullet => {
+        if (
+        playerX <= (bullet.x + bulletSize) &&
+        bullet.x <= (playerX + playerWidth) &&
+        playerY <= (bullet.y + bulletSize) &&
+        bullet.y <= (playerY + playerHeight) 
+    ) {
+        ResetAll();
+    }})
+}
+
+function BulletDetectionUp() {
+    bulletsUp.forEach(bullet => {
+        if (
+        playerX <= (bullet.x + bulletSize) &&
+        bullet.x <= (playerX + playerWidth) &&
+        playerY <= (bullet.y + bulletSize) &&
+        bullet.y <= (playerY + playerHeight) 
+    ) {
+        ResetAll();
+    }})
+}
+
+function BulletDetectionDown() {
+    bulletsDown.forEach(bullet => {
+        if (
+        playerX <= (bullet.x + bulletSize) &&
+        bullet.x <= (playerX + playerWidth) &&
+        playerY <= (bullet.y + bulletSize) &&
+        bullet.y <= (playerY + playerHeight) 
+    ) {
+        ResetAll();
+    }})
+}
+
+function CollisionDetectionBullets() {
+    BulletDetectionRight();
+    BulletDetectionLeft();
+    BulletDetectionUp();
+    BulletDetectionDown();
+}
+
+function LeaderboardInfo() {
+    document.getElementById("LBInfo").innerHTML = "<form name='lähetä' action='save.php' method='POST'>Put Name Here:<br><input type='text'name='name'><input style='display: none;'type='number' value="+Score+" name='piste'/><input style='padding:3px; color: white; 'type='submit'value='Submit'>";
 }
 
 function ResetAll() {
-    Reset();
-    playerX = 335;
-    playerY = 250;
+    LeaderboardInfo();
     Score = 0;
     rightPressed = false;
     leftPressed = false;
     upPressed = false;
     downPressed = false;
+    playerSpeed = 0;
+    bulletSpeed = 0;
 }
 
 function draw() {
@@ -206,7 +253,7 @@ function draw() {
     moveBullets();
     drawScore();
     CollisionDetectionObjective();
-    // CollisionDetectionBullets();
+    CollisionDetectionBullets();
     requestAnimationFrame(draw);
 }
 

@@ -9,3 +9,20 @@ canvas {
     display: block;
     margin: 0 auto;
 }
+
+#LBInfo {
+    color: white;
+    font-size: 50px;
+    text-align: center;
+}
+
+#ScoreCount {
+    color: white;
+    font-size: 50px;
+    text-align: center;
+}
+
+#lähetä {
+    background-color: white;
+    
+}
