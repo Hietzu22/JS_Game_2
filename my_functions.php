@@ -6,7 +6,7 @@ function saveDataToXML($data) {
     $xml = simplexml_load_file('leaderboard.xml');
 
     $new_highscore = $xml->addChild('highscore');
-    $new_entry->addChild('name', $name);
+    $new_highscore->addChild('name', $name);
 
     $dom = new DOMDocument("1.0");
     $dom->preserveWhiteSpace = false;
