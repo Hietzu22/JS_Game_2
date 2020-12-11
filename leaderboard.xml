@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Leaderboard>
-
+  <highscore>
+    <name>Hietzu22</name>
+    <score>4</score>
+  </highscore>
+  <highscore>
+    <name>Hietzu22</name>
+    <score>0</score>
+  </highscore>
+  <highscore>
+    <name>Hietzu22</name>
+    <score>3</score>
+  </highscore>
 </Leaderboard>

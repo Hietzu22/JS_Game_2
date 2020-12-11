@@ -235,7 +235,7 @@ function CollisionDetectionBullets() {
 }
 
 function LeaderboardInfo() {
-    document.getElementById("LBInfo").innerHTML = "<form name='lähetä' action='save.php' method='GET'>Put Name Here:<br><input type='text'name='name'><input style='display: none;'type='number' value="+Score+" name='piste'/><input style='padding:3px; 'type='submit'value='Submit'>";
+    document.getElementById("LBInfo").innerHTML = "<form name='lähetä' action='save.php' method='GET'>Put Name Here:<br><input type='text'name='name'><input style='display: none;'type='number' value="+Score+" name='score'/><input style='padding:3px; 'type='submit'value='Submit'>";
 }
 
 function ResetAll() {
