@@ -7,5 +7,5 @@
     include_once 'my_functions.php';
     saveDataToXML($_GET);
 
-    header('Location: leaderboard.php');
+    header('Location: leaderboard.xml');
 ?>
